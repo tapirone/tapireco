@@ -1,13 +1,12 @@
 import "@/styles/globals.css";
+import "@solana/wallet-adapter-react-ui/styles.css";
 import { ConnectionProvider, WalletProvider } from "@solana/wallet-adapter-react";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import { PhantomWalletAdapter } from "@solana/wallet-adapter-wallets";
 import { clusterApiUrl } from "@solana/web3.js";
 import Navbar from "@/components/Navbar";
 
-import "@solana/wallet-adapter-react-ui/styles.css";
-
-const network = "mainnet-beta"; // bisa diubah ke "devnet"
+const network = "mainnet-beta";
 const endpoint = clusterApiUrl(network);
 const wallets = [new PhantomWalletAdapter()];
 

@@ -1,0 +1,73 @@
+import { useWallet } from "@solana/wallet-adapter-react";
+import { useState } from "react";
+import { PublicKey } from "@solana/web3.js";
+
+export default function SubscribePage() {
+  const { publicKey, connected } = useWallet();
+  const [selected, setSelected] = useState("sol");
+  const [loading, setLoading] = useState(false);
+
+  const devWallet = {
+    sol: "5ra5JPQwtwS8kWxLgDxXZBeFWNJGppdLX4psjDygWD2n",
+    alpir: "5ra5JPQwtwS8kWxLgDxXZBeFWNJGppdLX4psjDygWD2n",
+  };
+
+  const handlePay = async () => {
+    if (!publicKey) return alert("Please connect your wallet first");
+    setLoading(true);
+
+    try {
+      alert(
+        `Send $5 worth of ${selected.toUpperCase()} to:\n` +
+          devWallet[selected] +
+          "\n\nAfter payment, your subscription will be activated."
+      );
+    } catch (err) {
+      alert("Failed to process payment");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="text-white max-w-xl mx-auto py-10 space-y-6">
+      <h1 className="text-3xl font-bold text-pink-400 mb-2">🔥 Subscribe to Tapir Premium</h1>
+      <p className="text-gray-300">
+        Unlock unlimited AI chat with Tapir. Choose your payment method below and send $5 worth of token to activate premium access.
+      </p>
+
+      <div className="flex gap-4">
+        <button
+          onClick={() => setSelected("sol")}
+          className={`px-4 py-2 rounded border ${
+            selected === "sol" ? "bg-pink-600" : "bg-gray-800 border-gray-600"
+          }`}
+        >
+          Pay with SOL
+        </button>
+        <button
+          onClick={() => setSelected("alpir")}
+          className={`px-4 py-2 rounded border ${
+            selected === "alpir" ? "bg-pink-600" : "bg-gray-800 border-gray-600"
+          }`}
+        >
+          Pay with ALPIR
+        </button>
+      </div>
+
+      <div className="mt-6">
+        <button
+          onClick={handlePay}
+          disabled={loading || !connected}
+          className="px-6 py-3 bg-green-500 hover:bg-green-400 text-gray-900 font-semibold rounded shadow disabled:opacity-50"
+        >
+          {loading ? "Processing..." : "Subscribe Now"}
+        </button>
+      </div>
+
+      {!connected && (
+        <p className="text-sm text-red-400">Please connect your wallet first.</p>
+      )}
+    </div>
+  );
+}
