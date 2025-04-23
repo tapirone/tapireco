@@ -1,7 +1,7 @@
 // pages/roadmap.js
 export default function RoadmapPage() {
   const items = [
-    { text: "Q2 2025 – ALPIR Presale", status: "done" },
+    { text: "Q2 2025 – ALPIR Token Live", status: "done" },
     { text: "Q2 2025 – Tapir Chat AI , ALPIR on DEX", status: "done" },
     { text: "Q2 2025 – Buy Credits ( SOL or ALPIR) for Tapir Draw & Tapir Games", status: "done" },
     { text: "Q3 2025 – Tapir Draw AI (text-to-image generator, credits based)", status: "soon" },
