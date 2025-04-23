@@ -5,17 +5,17 @@ export default function BuyCredit() {
       <div className="max-w-3xl mx-auto text-center">
         <h1 className="text-4xl font-bold text-yellow-400 mb-4">Buy Credits</h1>
         <p className="text-zinc-300 mb-8 text-lg">
-          Credits are used to generate images in Tapir Draw. 1 Credit = 1 Image
+          Credits are used to generate images in Tapir Draw. 1 Credit = 1 Image.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <CreditCard amount={20} price="1 SOL" />
-          <CreditCard amount={50} price="2.4 SOL" />
-          <CreditCard amount={100} price="4.5 SOL" />
+          <CreditCard amount={25} price="0.1 SOL" />
+          <CreditCard amount={100} price="0.35 SOL" />
+          <CreditCard amount={280} price="1 SOL" />
         </div>
 
         <p className="text-sm text-zinc-400 mt-8">
-          * Payment available in SOL. ALPIR support coming soon.
+          * Payments will be made in SOL. ALPIR support is coming soon.
         </p>
       </div>
     </div>
