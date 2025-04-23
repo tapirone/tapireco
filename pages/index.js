@@ -1,4 +1,6 @@
 // pages/index.js
+import Link from 'next/link';
+
 export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-zinc-900 to-gray-800 text-white px-6 py-10 md:px-12">
@@ -10,24 +12,15 @@ export default function Home() {
           AI-powered tools, Solana NFTs, and meme token utilities — all in one place.
         </p>
         <div className="flex flex-wrap justify-center gap-4 mt-6">
-          <a
-            href="/chat"
-            className="px-6 py-3 bg-yellow-400 text-black rounded-xl font-semibold hover:bg-yellow-500 transition"
-          >
+          <Link href="/chat" className="px-6 py-3 bg-yellow-400 text-black rounded-xl font-semibold hover:bg-yellow-500 transition">
             Chat with Tapir
-          </a>
-          <a
-            href="/draw"
-            className="px-6 py-3 border border-yellow-400 text-yellow-400 rounded-xl hover:bg-yellow-500 hover:text-black transition"
-          >
+          </Link>
+          <Link href="/draw" className="px-6 py-3 border border-yellow-400 text-yellow-400 rounded-xl hover:bg-yellow-500 hover:text-black transition">
             Tapir Draw
-          </a>
-          <a
-            href="/nft"
-            className="px-6 py-3 border border-yellow-400 text-yellow-400 rounded-xl hover:bg-yellow-500 hover:text-black transition"
-          >
+          </Link>
+          <Link href="/nft" className="px-6 py-3 border border-yellow-400 text-yellow-400 rounded-xl hover:bg-yellow-500 hover:text-black transition">
             Tapir NFT
-          </a>
+          </Link>
         </div>
       </div>
 

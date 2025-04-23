@@ -1,4 +1,3 @@
-// pages/games.js
 export default function Games() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-zinc-900 to-gray-800 text-white px-6 py-10 md:px-12">
@@ -9,7 +8,7 @@ export default function Games() {
         </p>
         <div className="bg-zinc-800 rounded-2xl p-6 border border-zinc-700 shadow-md">
           <p className="text-md md:text-lg text-zinc-200 leading-relaxed">
-            In this interactive pet simulator, you'll care for a Tapir through various life stages:
+            In this interactive pet simulator, you&#39;ll care for a Tapir through various life stages:
             baby 🍼, teenager 😎, adult 💪, and mythical GOD 🛕.
             <br /><br />
             💧 Give water, 🍚 feed meals, 🛁 bathe it, and 🧠 talk to it using AI!
