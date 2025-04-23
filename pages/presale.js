@@ -45,6 +45,53 @@ export default function Presale() {
     return () => clearInterval(interval);
   }, []);
 
+import { useEffect, useState } from 'react';
+import { PublicKey, Connection, Transaction, SystemProgram } from '@solana/web3.js';
+
+const END_DATE = new Date("2025-05-21T23:59:59Z").getTime();
+const RECEIVER_WALLET = "5ra5JPQwtwS8kWxLgDxXZBeFWNJGppdLX4psjDygWD2n";
+const RATE = 5000000;
+const TARGET_SOL = 200;
+const RPC = "https://autumn-crimson-bridge.solana-mainnet.quiknode.pro/531d45624fd94d1da6917dbe5028851724233170/";
+
+export default function Presale() {
+  const [wallet, setWallet] = useState(null);
+  const [solAmount, setSolAmount] = useState(0);
+  const [alpirAmount, setAlpirAmount] = useState(0);
+  const [timeLeft, setTimeLeft] = useState({});
+  const [txHash, setTxHash] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [raised, setRaised] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const now = Date.now();
+      const diff = END_DATE - now;
+      setTimeLeft({
+        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((diff / (1000 * 60)) % 60),
+        seconds: Math.floor((diff / 1000) % 60)
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const fetchRaised = () => {
+      fetch('/api/raised')
+        .then(res => res.json())
+        .then(data => {
+          const val = parseFloat(data.total || data.raised);
+          if (!isNaN(val)) setRaised(val);
+        });
+    };
+
+    fetchRaised();
+    const interval = setInterval(fetchRaised, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
   const connectWallet = async () => {
     if (window?.solana?.isPhantom) {
       try {
@@ -150,7 +197,9 @@ export default function Presale() {
             <button
               onClick={disconnectWallet}
               className="bg-gray-600 px-4 py-2 rounded text-white mb-2 w-full"
-            >Disconnect</button>
+            >
+              Disconnect
+            </button>
             <button
               onClick={handleBuy}
               disabled={loading}
