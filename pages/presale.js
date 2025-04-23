@@ -32,7 +32,7 @@ export default function Presale() {
 
   useEffect(() => {
     const fetchRaised = () => {
-      fetch('http://167.71.160.224:3001/raised')
+      fetch('https://api.alphatapir.org/raised')
         .then(res => res.json())
         .then(data => {
           const val = parseFloat(data.total || data.raised);
@@ -40,8 +40,8 @@ export default function Presale() {
         });
     };
 
-    fetchRaised(); // initial
-    const interval = setInterval(fetchRaised, 5000); // refresh every 5s
+    fetchRaised();
+    const interval = setInterval(fetchRaised, 5000);
     return () => clearInterval(interval);
   }, []);
 
@@ -81,7 +81,7 @@ export default function Presale() {
       const sig = await connection.sendRawTransaction(signed.serialize());
       setTxHash(sig);
 
-      await fetch('http://167.71.160.224:3001/raised',/raised', {
+      await fetch('https://api.alphatapir.org/raised', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ amount: solAmount })
