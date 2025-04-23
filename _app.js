@@ -1,26 +1,33 @@
-import "@/styles/globals.css";
-import "@solana/wallet-adapter-react-ui/styles.css";
-import { ConnectionProvider, WalletProvider } from "@solana/wallet-adapter-react";
-import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
-import { PhantomWalletAdapter } from "@solana/wallet-adapter-wallets";
-import { clusterApiUrl } from "@solana/web3.js";
-import Navbar from "@/components/Navbar";
+// pages/_app.js
+import '@/styles/globals.css';
+import { useMemo } from 'react';
+import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
+import {
+  ConnectionProvider,
+  WalletProvider
+} from '@solana/wallet-adapter-react';
+import {
+  WalletModalProvider
+} from '@solana/wallet-adapter-react-ui';
+import {
+  PhantomWalletAdapter
+} from '@solana/wallet-adapter-wallets';
 
-const network = "mainnet-beta";
-const endpoint = clusterApiUrl(network);
-const wallets = [new PhantomWalletAdapter()];
+require('@solana/wallet-adapter-react-ui/styles.css'); // penting untuk modal wallet
+
+const network = WalletAdapterNetwork.Mainnet;
+const endpoint = 'https://api.mainnet-beta.solana.com'; // lo bisa ganti pakai RPC QuikNode juga
+
+const wallets = useMemo(() => [
+  new PhantomWalletAdapter()
+], []);
 
 export default function App({ Component, pageProps }) {
   return (
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} autoConnect>
         <WalletModalProvider>
-          <div className="min-h-screen bg-black text-white">
-            <Navbar />
-            <main className="p-4 max-w-4xl mx-auto">
-              <Component {...pageProps} />
-            </main>
-          </div>
+          <Component {...pageProps} />
         </WalletModalProvider>
       </WalletProvider>
     </ConnectionProvider>
