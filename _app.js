@@ -1,28 +1,23 @@
-// pages/_app.js
 import '@/styles/globals.css';
-import { useMemo } from 'react';
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import {
   ConnectionProvider,
   WalletProvider
 } from '@solana/wallet-adapter-react';
-import {
-  WalletModalProvider
-} from '@solana/wallet-adapter-react-ui';
-import {
-  PhantomWalletAdapter
-} from '@solana/wallet-adapter-wallets';
-
-require('@solana/wallet-adapter-react-ui/styles.css'); // penting untuk modal wallet
-
-const network = WalletAdapterNetwork.Mainnet;
-const endpoint = 'https://api.mainnet-beta.solana.com'; // lo bisa ganti pakai RPC QuikNode juga
-
-const wallets = useMemo(() => [
-  new PhantomWalletAdapter()
-], []);
+import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
+import { SolflareWalletAdapter } from '@solana/wallet-adapter-wallets';
+import { useMemo } from 'react';
+import '@solana/wallet-adapter-react-ui/styles.css';
 
 export default function App({ Component, pageProps }) {
+  const network = WalletAdapterNetwork.Mainnet;
+  const endpoint = 'https://api.mainnet-beta.solana.com';
+
+  const wallets = useMemo(
+    () => [new SolflareWalletAdapter()],
+    []
+  );
+
   return (
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} autoConnect>
