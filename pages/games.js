@@ -1,31 +1,26 @@
 // pages/games.js
-import DefaultLayout from '@/layout/Default';
-
-export default function GamesPage() {
+export default function Games() {
   return (
-    <DefaultLayout title="Games">
+    <div className="min-h-screen bg-gradient-to-br from-black via-zinc-900 to-gray-800 text-white px-6 py-10 md:px-12">
       <div className="max-w-3xl mx-auto text-center">
-        <h1 className="text-3xl font-bold text-yellow-400 mb-6">🎮 Tapir Games</h1>
-
-        <p className="text-lg text-gray-300 mb-4">
-          Two types of games are coming soon:
+        <h1 className="text-5xl font-extrabold text-yellow-400 mb-4">Tapir Games — Coming Soon 🎮</h1>
+        <p className="text-zinc-300 text-lg mb-8">
+          Prepare to raise your very own Tapir — from cute baby chill to wise GOD TAPIR.
         </p>
-
-        <div className="bg-zinc-800 p-6 rounded-xl mb-4 text-left">
-          <h2 className="text-xl text-yellow-300 font-semibold mb-2">1. Tapir Mini-Games</h2>
-          <p className="text-gray-400">Fast-paced fun games for entertainment and rewards.</p>
-        </div>
-
-        <div className="bg-zinc-800 p-6 rounded-xl text-left">
-          <h2 className="text-xl text-yellow-300 font-semibold mb-2">2. Tapir Virtual Life</h2>
-          <p className="text-gray-400">
-            Raise your tapir from baby to legendary. Feed, clean, and dress it. The more you care,
-            the faster it evolves!
+        <div className="bg-zinc-800 rounded-2xl p-6 border border-zinc-700 shadow-md">
+          <p className="text-md md:text-lg text-zinc-200 leading-relaxed">
+            In this interactive pet simulator, you'll care for a Tapir through various life stages:
+            baby 🍼, teenager 😎, adult 💪, and mythical GOD 🛕.
+            <br /><br />
+            💧 Give water, 🍚 feed meals, 🛁 bathe it, and 🧠 talk to it using AI!
+            <br /><br />
+            The more you care, the more it evolves — unlock skills, tapir wisdom, and unique NFT forms.
+            <br /><br />
+            🐾 Every Tapir is unique. Only the most dedicated will raise a true legend...
           </p>
         </div>
-
-        <p className="mt-6 text-gray-500">🚧 Games launching soon. Stay tuned!</p>
+        <p className="text-sm text-zinc-400 mt-8 italic">Launching in Q4 2025 — stay tuned.</p>
       </div>
-    </DefaultLayout>
+    </div>
   );
 }
