@@ -1,5 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { PublicKey, Connection, Transaction, SystemProgram } from '@solana/web3.js';
+import { useWallet } from '@solana/wallet-adapter-react';
+import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 
 const END_DATE = new Date("2025-05-21T23:59:59Z").getTime();
 const RECEIVER_WALLET = "5ra5JPQwtwS8kWxLgDxXZBeFWNJGppdLX4psjDygWD2n";
@@ -8,13 +10,15 @@ const TARGET_SOL = 200;
 const RPC = "https://autumn-crimson-bridge.solana-mainnet.quiknode.pro/531d45624fd94d1da6917dbe5028851724233170/";
 
 export default function Presale() {
-  const [wallet, setWallet] = useState(null);
   const [solAmount, setSolAmount] = useState(0);
   const [alpirAmount, setAlpirAmount] = useState(0);
   const [timeLeft, setTimeLeft] = useState({});
   const [txHash, setTxHash] = useState(null);
   const [loading, setLoading] = useState(false);
   const [raised, setRaised] = useState(0);
+  const { publicKey, signTransaction } = useWallet();
+
+  const wallet = publicKey ? publicKey.toString() : null;
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -39,33 +43,16 @@ export default function Presale() {
           if (!isNaN(val)) setRaised(val);
         });
     };
-
     fetchRaised();
     const interval = setInterval(fetchRaised, 5000);
     return () => clearInterval(interval);
   }, []);
-
-  const connectWallet = async () => {
-    if (window?.solana?.isPhantom) {
-      try {
-        const resp = await window.solana.connect();
-        setWallet(resp.publicKey.toString());
-      } catch (err) {
-        console.error("Connection failed:", err);
-      }
-    } else {
-      alert("Phantom Wallet not found");
-    }
-  };
-
-  const disconnectWallet = () => setWallet(null);
 
   const handleBuy = async () => {
     if (!wallet || solAmount < 0.1 || solAmount > 5) return;
     try {
       setLoading(true);
       setTxHash(null);
-      const provider = window.solana;
       const connection = new Connection(RPC);
       const transaction = new Transaction().add(
         SystemProgram.transfer({
@@ -77,7 +64,7 @@ export default function Presale() {
       const { blockhash } = await connection.getLatestBlockhash();
       transaction.recentBlockhash = blockhash;
       transaction.feePayer = new PublicKey(wallet);
-      const signed = await provider.signTransaction(transaction);
+      const signed = await signTransaction(transaction);
       const sig = await connection.sendRawTransaction(signed.serialize());
       setTxHash(sig);
 
@@ -133,37 +120,21 @@ export default function Presale() {
         <p className="mb-2">You&#39;ll receive: <strong>{alpirAmount}</strong> ALPIR</p>
         <p className="mb-4">{raised} / {TARGET_SOL} SOL Raised</p>
 
-        {!wallet ? (
+        <WalletMultiButton className="mb-4 w-full" />
+
+        {wallet && (
           <button
-            onClick={connectWallet}
-            className="bg-yellow-500 text-black px-6 py-2 rounded hover:bg-yellow-400 mb-4 w-full"
+            onClick={handleBuy}
+            disabled={loading}
+            className="bg-green-500 px-6 py-2 rounded text-white hover:bg-green-400 w-full"
           >
-            Connect Wallet
+            {loading ? 'Processing...' : 'Buy Now'}
           </button>
-        ) : (
-          <>
-            <button
-              onClick={disconnectWallet}
-              className="bg-gray-600 px-4 py-2 rounded text-white mb-2 w-full"
-            >Disconnect</button>
-            <button
-              onClick={handleBuy}
-              disabled={loading}
-              className="bg-green-500 px-6 py-2 rounded text-white hover:bg-green-400 w-full"
-            >
-              {loading ? 'Processing...' : 'Buy Now'}
-            </button>
-          </>
         )}
 
         {txHash && (
           <p className="mt-4 text-green-400 text-sm text-center break-all">
-            TX: <a
-              href={`https://solscan.io/tx/${txHash}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline"
-            >
+            TX: <a href={`https://solscan.io/tx/${txHash}`} target="_blank" rel="noopener noreferrer" className="underline">
               View on Solscan
             </a>
           </p>
