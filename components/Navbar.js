@@ -8,11 +8,11 @@ const navLinks = [
   { name: "Chat", href: "/chat" },
   { name: "Draw", href: "/draw" },
   { name: "NFT", href: "/nft" },
-  { name: "Games", href: "/games" }, // ✅ Tambahan menu Games
+  { name: "Games", href: "/games" },
   { name: "Buy Credit", href: "/buy" },
   { name: "Goals", href: "/goals" },
   { name: "Roadmap", href: "/roadmap" },
-  { name: "Presale", href: "https://www.buytapirsolanameme.com", external: true },
+  { name: "Presale 🔒", href: "#", disabled: true }, // 🟡 Disabled menu item
 ];
 
 export default function Navbar() {
@@ -21,20 +21,36 @@ export default function Navbar() {
 
   const isActive = (href) => router.pathname === href;
 
-  const renderLink = (link) =>
-    link.external ? (
-      <a
-        key={link.name}
-        href={link.href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={`cursor-pointer hover:text-yellow-400 ${
-          isActive(link.href) ? 'text-yellow-400 font-semibold' : ''
-        }`}
-      >
-        {link.name}
-      </a>
-    ) : (
+  const renderLink = (link) => {
+    if (link.disabled) {
+      return (
+        <span
+          key={link.name}
+          className="cursor-not-allowed text-zinc-500 hover:text-zinc-400"
+          title="Coming Soon"
+        >
+          {link.name}
+        </span>
+      );
+    }
+
+    if (link.external) {
+      return (
+        <a
+          key={link.name}
+          href={link.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`cursor-pointer hover:text-yellow-400 ${
+            isActive(link.href) ? 'text-yellow-400 font-semibold' : ''
+          }`}
+        >
+          {link.name}
+        </a>
+      );
+    }
+
+    return (
       <Link key={link.name} href={link.href}>
         <span
           className={`cursor-pointer hover:text-yellow-400 ${
@@ -45,6 +61,7 @@ export default function Navbar() {
         </span>
       </Link>
     );
+  };
 
   return (
     <nav className="bg-black text-white p-4 shadow-md z-50">
@@ -59,7 +76,7 @@ export default function Navbar() {
           </button>
         </div>
 
-        {/* Mobile Menu Icon */}
+        {/* Mobile Menu Button */}
         <button className="md:hidden" onClick={() => setIsOpen(!isOpen)}>
           {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
