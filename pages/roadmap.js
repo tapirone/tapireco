@@ -3,7 +3,7 @@ export default function RoadmapPage() {
   const items = [
     { text: "Q2 2025 – ALPIR Presale", status: "done" },
     { text: "Q2 2025 – Tapir Chat AI , ALPIR on DEX", status: "done" },
-    { text: "Q2 2025 – Buy Credits (pakai SOL or ALPIR) for Tapir Draw & Tapir Games", status: "done" },
+    { text: "Q2 2025 – Buy Credits ( SOL or ALPIR) for Tapir Draw & Tapir Games", status: "done" },
     { text: "Q3 2025 – Tapir Draw AI (text-to-image generator, credits based)", status: "soon" },
     { text: "Q4 2025 – Tapir Games (pet simulation, Tapir evolve become God)", status: "soon" },
     { text: "Q4 2025 – NFT Staking System, Token TAPIRAI (Tapir AI NFT on DEX)", status: "soon" },
