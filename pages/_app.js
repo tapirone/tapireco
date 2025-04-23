@@ -5,7 +5,10 @@ import {
   WalletProvider
 } from '@solana/wallet-adapter-react';
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
-import { SolflareWalletAdapter } from '@solana/wallet-adapter-wallets';
+import {
+  PhantomWalletAdapter,
+  SolflareWalletAdapter
+} from '@solana/wallet-adapter-wallets';
 import { useMemo } from 'react';
 import '@solana/wallet-adapter-react-ui/styles.css';
 
@@ -14,7 +17,10 @@ function MyApp({ Component, pageProps }) {
   const endpoint = 'https://api.mainnet-beta.solana.com';
 
   const wallets = useMemo(
-    () => [new SolflareWalletAdapter()],
+    () => [
+      new PhantomWalletAdapter(),
+      new SolflareWalletAdapter()
+    ],
     []
   );
 
