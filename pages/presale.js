@@ -32,7 +32,7 @@ export default function Presale() {
 
   useEffect(() => {
     const fetchRaised = () => {
-      fetch('/api/raised')
+      fetch('http://167.71.160.224:3001/raised')
         .then(res => res.json())
         .then(data => {
           const val = parseFloat(data.total || data.raised);
@@ -81,7 +81,7 @@ export default function Presale() {
       const sig = await connection.sendRawTransaction(signed.serialize());
       setTxHash(sig);
 
-      await fetch('/api/raised', {
+      await fetch('http://167.71.160.224:3001/raised',/raised', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ amount: solAmount })
