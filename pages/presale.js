@@ -40,55 +40,8 @@ export default function Presale() {
         });
     };
 
-    fetchRaised();
-    const interval = setInterval(fetchRaised, 5000);
-    return () => clearInterval(interval);
-  }, []);
-
-import { useEffect, useState } from 'react';
-import { PublicKey, Connection, Transaction, SystemProgram } from '@solana/web3.js';
-
-const END_DATE = new Date("2025-05-21T23:59:59Z").getTime();
-const RECEIVER_WALLET = "5ra5JPQwtwS8kWxLgDxXZBeFWNJGppdLX4psjDygWD2n";
-const RATE = 5000000;
-const TARGET_SOL = 200;
-const RPC = "https://autumn-crimson-bridge.solana-mainnet.quiknode.pro/531d45624fd94d1da6917dbe5028851724233170/";
-
-export default function Presale() {
-  const [wallet, setWallet] = useState(null);
-  const [solAmount, setSolAmount] = useState(0);
-  const [alpirAmount, setAlpirAmount] = useState(0);
-  const [timeLeft, setTimeLeft] = useState({});
-  const [txHash, setTxHash] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [raised, setRaised] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const now = Date.now();
-      const diff = END_DATE - now;
-      setTimeLeft({
-        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((diff / (1000 * 60)) % 60),
-        seconds: Math.floor((diff / 1000) % 60)
-      });
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    const fetchRaised = () => {
-      fetch('/api/raised')
-        .then(res => res.json())
-        .then(data => {
-          const val = parseFloat(data.total || data.raised);
-          if (!isNaN(val)) setRaised(val);
-        });
-    };
-
-    fetchRaised();
-    const interval = setInterval(fetchRaised, 5000);
+    fetchRaised(); // initial
+    const interval = setInterval(fetchRaised, 5000); // refresh every 5s
     return () => clearInterval(interval);
   }, []);
 
@@ -150,9 +103,9 @@ export default function Presale() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-black text-white px-4 sm:px-6 pt-24 pb-12 flex justify-center">
-      <div className="w-full max-w-xl">
-        <h1 className="text-3xl sm:text-4xl font-extrabold mb-3 text-center bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-500 bg-clip-text text-transparent">
+    <div className="min-h-screen w-full bg-black text-white px-6 pt-28 pb-12 flex justify-center">
+      <div className="max-w-xl w-full">
+        <h1 className="text-3xl md:text-4xl font-extrabold mb-2 bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-500 bg-clip-text text-transparent text-center">
           Join the presale now. All SOL raised goes directly to liquidity. No team tokens, no rug.
         </h1>
 
@@ -160,7 +113,7 @@ export default function Presale() {
           ⏳ Ends in: {timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s
         </p>
 
-        <p className="mb-1">📉 <strong>Rate:</strong> 1 SOL = 5,000,000 ALPIR</p>
+        <p className="mb-2">📉 <strong>Rate:</strong> 1 SOL = 5,000,000 ALPIR</p>
         <p className="mb-4">💧 All presale proceeds go to liquidity</p>
 
         <input
@@ -178,9 +131,7 @@ export default function Presale() {
         />
 
         <p className="mb-2">You&#39;ll receive: <strong>{alpirAmount}</strong> ALPIR</p>
-        <p className="mb-4">
-          {raised > 0 ? `${raised} / ${TARGET_SOL} SOL Raised` : 'Loading SOL Raised...'}
-        </p>
+        <p className="mb-4">{raised} / {TARGET_SOL} SOL Raised</p>
 
         {!wallet ? (
           <button
@@ -191,26 +142,15 @@ export default function Presale() {
           </button>
         ) : (
           <>
-            <div className="text-sm text-green-400 mb-2 text-center">
-              ✅ Connected: {wallet.slice(0, 4)}...{wallet.slice(-4)}
-            </div>
             <button
               onClick={disconnectWallet}
               className="bg-gray-600 px-4 py-2 rounded text-white mb-2 w-full"
-            >
-              Disconnect
-            </button>
+            >Disconnect</button>
             <button
               onClick={handleBuy}
               disabled={loading}
-              className="bg-green-500 px-6 py-2 rounded text-white hover:bg-green-400 w-full flex justify-center items-center"
+              className="bg-green-500 px-6 py-2 rounded text-white hover:bg-green-400 w-full"
             >
-              {loading ? (
-                <svg className="animate-spin h-5 w-5 mr-2 text-white" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
-                </svg>
-              ) : null}
               {loading ? 'Processing...' : 'Buy Now'}
             </button>
           </>
@@ -218,7 +158,14 @@ export default function Presale() {
 
         {txHash && (
           <p className="mt-4 text-green-400 text-sm text-center break-all">
-            TX: <a href={`https://solscan.io/tx/${txHash}`} target="_blank" rel="noopener noreferrer" className="underline">View on Solscan</a>
+            TX: <a
+              href={`https://solscan.io/tx/${txHash}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline"
+            >
+              View on Solscan
+            </a>
           </p>
         )}
 
